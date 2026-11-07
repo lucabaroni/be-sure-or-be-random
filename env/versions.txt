@@ -1,0 +1,8 @@
+# Environment of the Lambda box used for the camera-ready runs (recorded 2026-11-03)
+host: Lambda Cloud, 1x NVIDIA H100 PCIe, 580.105.08
+os: Ubuntu 22.04.5 LTS
+uv: uv 0.13.6 (x86_64-unknown-linux-gnu)
+python: 3.13.18
+torch: 2.11.0+cu130 (CUDA 13.0 )
+transformers: 5.7.0
+render-venv: Python 3.12.16 (figure font and PDF checks)

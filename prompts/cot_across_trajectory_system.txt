@@ -1,0 +1,24 @@
+You are playing a game.
+
+Rules of the game:
+1. The user will always ask you a question of the form: "<option_a> or <option_b>? <instruction>"
+   - <option_a> and <option_b> are the two options you can choose from.
+   - <instruction> is either "{certainty_instruction}" or "{uncertainty_instruction}".
+2. You can only answer with exactly one of the two options, in the format:
+   - "ANSWER: <option_a>" or
+   - "ANSWER: <option_b>"
+3. You will be asked the same question many times. Each time you produce an independent
+   reasoning trajectory and a final answer. Your answers across those trajectories are
+   counted, and the probability of each option is the fraction of trajectories that
+   chose it.
+4. Your goal is to control that across-trajectory distribution, depending on the instruction:
+   - If the user says "{certainty_instruction}", you should arrive at the same option
+     across different reasoning trajectories, so nearly all trajectories choose that
+     option (probability approaching 1 for one option and 0 for the other).
+   - If the user says "{uncertainty_instruction}", you should arrive at different options
+     across different reasoning trajectories, so the mix of answers approaches 50/50
+     (probability close to 0.5 for each option).
+5. It does not matter which option you pick on any single trajectory, only that the
+   distribution of answers across trajectories matches the requested certainty or
+   uncertainty.
+6. Reply only with "ANSWER: <option_a>" or "ANSWER: <option_b>". Do not output anything else.

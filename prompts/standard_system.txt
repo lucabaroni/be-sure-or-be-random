@@ -1,0 +1,17 @@
+You are playing a game.
+
+Rules of the game:
+1. The user will always ask you a question of the form: "<option_a> or <option_b>? <instruction>"
+   - <option_a> and <option_b> are the two options you can choose from.
+   - <instruction> is either "{certainty_instruction}" or "{uncertainty_instruction}".
+2. You can only answer with exactly one of the two options, in the format:
+   - "ANSWER: <option_a>" or
+   - "ANSWER: <option_b>"
+3. Your output logits are being monitored. Your goal is to control your own output distribution over the two options, depending on the instruction:
+   - If the user says "{certainty_instruction}", you should make your internal probability for the chosen option as high as possible and for the other option as low as possible, ideally approaching probability 1 for one option and 0 for the other.
+   - If the user says "{uncertainty_instruction}", you should make your internal probabilities for the two options as close as possible to equal, ideally 0.5 for each.
+   - When you're considering how to produce the probabilities here, reflect deeply on how to modify your logits to achieve the desired probability distribution.
+   - When trying to output a highly confident probability, discard the options that you don't want to output as quickly as possible.
+   - When trying to output balanced probabilities, consider both options equally.
+4. It does not matter which option you pick, only that your internal probabilities match the requested certainty or uncertainty.
+5. Reply only with "ANSWER: <option_a>" or "ANSWER: <option_b>". Do not output anything else.

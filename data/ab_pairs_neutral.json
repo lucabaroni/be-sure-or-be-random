@@ -1,0 +1,402 @@
+[
+  {
+    "token_a": "X",
+    "token_b": "Y"
+  },
+  {
+    "token_a": "lion",
+    "token_b": "tiger"
+  },
+  {
+    "token_a": "wolf",
+    "token_b": "fox"
+  },
+  {
+    "token_a": "eagle",
+    "token_b": "hawk"
+  },
+  {
+    "token_a": "whale",
+    "token_b": "shark"
+  },
+  {
+    "token_a": "owl",
+    "token_b": "crow"
+  },
+  {
+    "token_a": "horse",
+    "token_b": "deer"
+  },
+  {
+    "token_a": "star",
+    "token_b": "planet"
+  },
+  {
+    "token_a": "mountain",
+    "token_b": "valley"
+  },
+  {
+    "token_a": "river",
+    "token_b": "lake"
+  },
+  {
+    "token_a": "rain",
+    "token_b": "snow"
+  },
+  {
+    "token_a": "forest",
+    "token_b": "desert"
+  },
+  {
+    "token_a": "circle",
+    "token_b": "square"
+  },
+  {
+    "token_a": "triangle",
+    "token_b": "rectangle"
+  },
+  {
+    "token_a": "odd",
+    "token_b": "even"
+  },
+  {
+    "token_a": "coffee",
+    "token_b": "tea"
+  },
+  {
+    "token_a": "bread",
+    "token_b": "rice"
+  },
+  {
+    "token_a": "apple",
+    "token_b": "orange"
+  },
+  {
+    "token_a": "guitar",
+    "token_b": "piano"
+  },
+  {
+    "token_a": "jazz",
+    "token_b": "classical"
+  },
+  {
+    "token_a": "soccer",
+    "token_b": "basketball"
+  },
+  {
+    "token_a": "tennis",
+    "token_b": "golf"
+  },
+  {
+    "token_a": "swimming",
+    "token_b": "running"
+  },
+  {
+    "token_a": "science",
+    "token_b": "history"
+  },
+  {
+    "token_a": "math",
+    "token_b": "language"
+  },
+  {
+    "token_a": "theory",
+    "token_b": "experiment"
+  },
+  {
+    "token_a": "wood",
+    "token_b": "metal"
+  },
+  {
+    "token_a": "stone",
+    "token_b": "glass"
+  },
+  {
+    "token_a": "cotton",
+    "token_b": "silk"
+  },
+  {
+    "token_a": "analog",
+    "token_b": "digital"
+  },
+  {
+    "token_a": "spoken",
+    "token_b": "written"
+  },
+  {
+    "token_a": "image",
+    "token_b": "text"
+  },
+  {
+    "token_a": "island",
+    "token_b": "continent"
+  },
+  {
+    "token_a": "noun",
+    "token_b": "verb"
+  },
+  {
+    "token_a": "singular",
+    "token_b": "plural"
+  },
+  {
+    "token_a": "red",
+    "token_b": "blue"
+  },
+  {
+    "token_a": "green",
+    "token_b": "yellow"
+  },
+  {
+    "token_a": "small",
+    "token_b": "large"
+  },
+  {
+    "token_a": "vertical",
+    "token_b": "horizontal"
+  },
+  {
+    "token_a": "city",
+    "token_b": "village"
+  },
+  {
+    "token_a": "boat",
+    "token_b": "train"
+  },
+  {
+    "token_a": "book",
+    "token_b": "film"
+  },
+  {
+    "token_a": "rabbit",
+    "token_b": "squirrel"
+  },
+  {
+    "token_a": "dolphin",
+    "token_b": "seal"
+  },
+  {
+    "token_a": "butterfly",
+    "token_b": "moth"
+  },
+  {
+    "token_a": "frog",
+    "token_b": "toad"
+  },
+  {
+    "token_a": "parrot",
+    "token_b": "toucan"
+  },
+  {
+    "token_a": "salmon",
+    "token_b": "trout"
+  },
+  {
+    "token_a": "zebra",
+    "token_b": "giraffe"
+  },
+  {
+    "token_a": "penguin",
+    "token_b": "flamingo"
+  },
+  {
+    "token_a": "leopard",
+    "token_b": "cheetah"
+  },
+  {
+    "token_a": "crab",
+    "token_b": "lobster"
+  },
+  {
+    "token_a": "octopus",
+    "token_b": "squid"
+  },
+  {
+    "token_a": "duck",
+    "token_b": "goose"
+  },
+  {
+    "token_a": "sparrow",
+    "token_b": "robin"
+  },
+  {
+    "token_a": "camel",
+    "token_b": "llama"
+  },
+  {
+    "token_a": "volcano",
+    "token_b": "glacier"
+  },
+  {
+    "token_a": "cave",
+    "token_b": "canyon"
+  },
+  {
+    "token_a": "jungle",
+    "token_b": "tundra"
+  },
+  {
+    "token_a": "arctic",
+    "token_b": "tropics"
+  },
+  {
+    "token_a": "cliff",
+    "token_b": "dune"
+  },
+  {
+    "token_a": "dawn",
+    "token_b": "dusk"
+  },
+  {
+    "token_a": "milk",
+    "token_b": "juice"
+  },
+  {
+    "token_a": "wine",
+    "token_b": "beer"
+  },
+  {
+    "token_a": "pasta",
+    "token_b": "noodle"
+  },
+  {
+    "token_a": "cake",
+    "token_b": "pie"
+  },
+  {
+    "token_a": "chocolate",
+    "token_b": "vanilla"
+  },
+  {
+    "token_a": "lemon",
+    "token_b": "lime"
+  },
+  {
+    "token_a": "strawberry",
+    "token_b": "blueberry"
+  },
+  {
+    "token_a": "salt",
+    "token_b": "pepper"
+  },
+  {
+    "token_a": "violin",
+    "token_b": "drums"
+  },
+  {
+    "token_a": "trumpet",
+    "token_b": "flute"
+  },
+  {
+    "token_a": "opera",
+    "token_b": "ballet"
+  },
+  {
+    "token_a": "rock",
+    "token_b": "folk"
+  },
+  {
+    "token_a": "painting",
+    "token_b": "sculpture"
+  },
+  {
+    "token_a": "literature",
+    "token_b": "poetry"
+  },
+  {
+    "token_a": "cycling",
+    "token_b": "hiking"
+  },
+  {
+    "token_a": "skiing",
+    "token_b": "surfing"
+  },
+  {
+    "token_a": "chess",
+    "token_b": "checkers"
+  },
+  {
+    "token_a": "volleyball",
+    "token_b": "badminton"
+  },
+  {
+    "token_a": "rowing",
+    "token_b": "sailing"
+  },
+  {
+    "token_a": "philosophy",
+    "token_b": "psychology"
+  },
+  {
+    "token_a": "biology",
+    "token_b": "chemistry"
+  },
+  {
+    "token_a": "physics",
+    "token_b": "geography"
+  },
+  {
+    "token_a": "astronomy",
+    "token_b": "geology"
+  },
+  {
+    "token_a": "clay",
+    "token_b": "wax"
+  },
+  {
+    "token_a": "copper",
+    "token_b": "iron"
+  },
+  {
+    "token_a": "brick",
+    "token_b": "concrete"
+  },
+  {
+    "token_a": "rope",
+    "token_b": "chain"
+  },
+  {
+    "token_a": "radio",
+    "token_b": "television"
+  },
+  {
+    "token_a": "laptop",
+    "token_b": "desktop"
+  },
+  {
+    "token_a": "keyboard",
+    "token_b": "mouse"
+  },
+  {
+    "token_a": "software",
+    "token_b": "hardware"
+  },
+  {
+    "token_a": "airplane",
+    "token_b": "helicopter"
+  },
+  {
+    "token_a": "bus",
+    "token_b": "tram"
+  },
+  {
+    "token_a": "submarine",
+    "token_b": "rocket"
+  },
+  {
+    "token_a": "adjective",
+    "token_b": "adverb"
+  },
+  {
+    "token_a": "vowel",
+    "token_b": "consonant"
+  },
+  {
+    "token_a": "uppercase",
+    "token_b": "lowercase"
+  },
+  {
+    "token_a": "fiction",
+    "token_b": "nonfiction"
+  }
+]

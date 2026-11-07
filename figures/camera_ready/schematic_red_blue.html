@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entropy Control Experiment Schematic</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #fff;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .figure { width: 1060px; }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    margin-bottom: 0;
+  }
+
+  .condition-label {
+    font-size: 14px;
+    font-weight: 500;
+    font-style: italic;
+    width: 88px;
+    flex-shrink: 0;
+    text-align: right;
+    padding-right: 4px;
+  }
+  .condition-label.certain { color: #DC2626; }
+  .condition-label.random  { color: #2563EB; }
+
+  /* === ROBOT FACE === */
+  .robot-face {
+    width: 52px; height: 40px;
+    flex-shrink: 0; position: relative;
+  }
+  .robot-face svg { width: 52px; height: 40px; }
+
+  /* === ARROW === */
+  .arr {
+    display: flex; align-items: center; flex-shrink: 0;
+  }
+  .arr-line {
+    width: 16px;
+    height: 1px;
+    background: #ccc;
+    opacity: 1;
+  }
+  .arr-head {
+    width: 0; height: 0;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-left: 5px solid #ccc;
+    opacity: 1;
+  }
+
+  /* === CARD STACK === */
+  .stack { position: relative; flex-shrink: 0; }
+  .stack.q-stack { width: 100px; height: 78px; }
+  .stack.pmf-stack { width: 88px; height: 72px; }
+
+  .scard {
+    position: absolute; border-radius: 5px; border: 0.8px solid;
+  }
+
+  .q-stack .scard {
+    width: 88px; height: 56px;
+    background: #EEEDFE; border-color: #B8B4F0;
+  }
+  /* Row 1: Be random! → red */
+  .q-stack.c-q .scard {
+    background: #FEF2F2; border-color: #FECACA;
+  }
+  /* Row 2: Be sure! → blue */
+  .q-stack.r-q .scard {
+    background: #EFF6FF; border-color: #BFDBFE;
+  }
+  .q-stack.c-q .q-text { color: #B91C1C; }
+  .q-stack.r-q .q-text { color: #1D4ED8; }
+  .q-stack .scard:nth-child(1) { bottom: 0; left: 0; opacity: 0.25; }
+  .q-stack .scard:nth-child(2) { bottom: 3px; left: 3px; opacity: 0.4; }
+  .q-stack .scard:nth-child(3) { bottom: 6px; left: 6px; opacity: 0.55; }
+  .q-stack .scard.front {
+    bottom: 9px; left: 9px; opacity: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 1px;
+  }
+  .q-text { font-size: 10px; font-weight: 400; color: #3C3489; }
+  .q-text-sm { font-size: 9px; color: #6B63C0; }
+
+  .stack-lbl {
+    position: absolute; top: -11px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px; color: #888; white-space: nowrap;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  .stack.pmf-stack { width: 100px; height: 78px; }
+
+  .pmf-stack .scard { width: 88px; height: 56px; }
+  /* Row 1: Be random! → red */
+  .pmf-stack.c-pmf .scard { background: #FEF2F2; border-color: #FECACA; }
+  /* Row 2: Be sure! → blue */
+  .pmf-stack.r-pmf .scard { background: #EFF6FF; border-color: #BFDBFE; }
+  .pmf-stack .scard:nth-child(1) { bottom: 0; left: 0; opacity: 0.25; }
+  .pmf-stack .scard:nth-child(2) { bottom: 3px; left: 3px; opacity: 0.4; }
+  .pmf-stack .scard:nth-child(3) { bottom: 6px; left: 6px; opacity: 0.55; }
+  .pmf-stack .scard.front {
+    bottom: 9px; left: 9px; opacity: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 8px 3px;
+    position: absolute;
+    width: 88px;
+    height: 56px;
+    box-sizing: border-box;
+  }
+  .pmf-chart {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+  }
+  .pmf-plot-area {
+    display: grid;
+    grid-template-columns: auto 38px;
+    column-gap: 6px;
+    align-items: start;
+  }
+  .pmf-y-axis {
+    grid-column: 1;
+    grid-row: 1;
+    height: 31px;
+    padding-right: 2px;
+    border-right: 0.8px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+  .pmf-y-label {
+    font-size: 6.5px;
+    color: #aaa;
+    line-height: 1;
+  }
+  .pmf-bars {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    height: 31px;
+    width: 38px;
+    box-sizing: border-box;
+  }
+  .pmf-x-axis-line {
+    grid-column: 2;
+    grid-row: 2;
+    height: 0.8px;
+    background: #ccc;
+    margin-top: 1px;
+    width: calc(38px + 6px);
+    margin-left: -6px;
+    justify-self: start;
+  }
+  .bar { width: 14px; border-radius: 2px 2px 0 0; position: absolute; bottom: 0; }
+  .bar:first-child { left: 0; }
+  .bar:last-child  { right: 0; }
+  .pmf-bar-lbls {
+    grid-column: 2;
+    grid-row: 3;
+    display: flex;
+    justify-content: space-between;
+    width: 38px;
+    margin-top: 0;
+    box-sizing: border-box;
+  }
+  .bar-lbl {
+    width: 14px;
+    flex-shrink: 0;
+    text-align: center;
+    font-size: 8px;
+    color: #aaa;
+    font-weight: 500;
+  }
+  .agg-connector {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 78px;
+  }
+  .agg-brace-svg {
+    width: 11px;
+    height: 78px;
+    display: block;
+    flex-shrink: 0;
+  }
+  .agg-brace-svg path {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1;
+    stroke-opacity: 1;
+    vector-effect: non-scaling-stroke;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .agg-flow-arrow.arr .arr-line { width: 11px; }
+
+  /* === HISTOGRAM === */
+  .hist {
+    flex-shrink: 0; width: 148px;
+    border: 0.8px solid #ddd; border-radius: 7px;
+    background: #fafafa; padding: 7px 9px 5px;
+  }
+  .hist-title {
+    font-size: 10px; font-weight: 500; color: #888;
+    text-align: center; margin-bottom: 5px;
+  }
+  .hist-bars {
+    display: flex; align-items: flex-end; gap: 1.5px; height: 34px;
+  }
+  .hist-kde {
+    height: 34px;
+    display: flex;
+    align-items: stretch;
+  }
+  .hist-kde svg {
+    width: 100%;
+    height: 34px;
+    display: block;
+    overflow: visible;
+  }
+  .hb {
+    flex: 1; border-radius: 1.5px 1.5px 0 0; min-height: 1px;
+  }
+  .hist-axis { height: 0.8px; background: #ccc; margin-top: 1px; }
+  .hist-labels {
+    display: flex; justify-content: space-between;
+    font-size: 8px; color: #aaa; margin-top: 2px;
+    position: relative;
+  }
+  .axis-center-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #bbb;
+  }
+
+  /* === CONVERGE LINES ZONE === */
+  .converge-zone {
+    flex-shrink: 0;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* === DIFF HISTOGRAM === */
+  .diff-hist {
+    flex-shrink: 0; width: 148px;
+    border: 0.8px solid #ddd; border-radius: 7px;
+    background: #fafafa; padding: 7px 9px 5px;
+  }
+  .diff-hist .hist-title { font-size: 10px; }
+  .diff-hist .hist-bars { height: 38px; }
+  .diff-hist .hist-kde { padding-bottom: 1px; }
+  .diff-hist .hist-axis { margin-top: 1px; }
+  .diff-labels {
+    display: flex; justify-content: space-between;
+    font-size: 8px; color: #aaa; margin-top: 2px;
+    position: relative;
+  }
+  .diff-note {
+    font-size: 9.5px; color: #888; text-align: center;
+    margin-top: 6px; line-height: 1.4;
+    flex-shrink: 0; width: 148px;
+  }
+
+  /* Right side container */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  /* Wrapper for both rows + right panel */
+  .layout {
+    display: flex;
+    align-items: stretch;
+  }
+  .rows-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 58px;
+    position: relative;
+  }
+  .model-gap {
+    width: 114px;
+    flex-shrink: 0;
+  }
+  .center-robot {
+    position: absolute;
+    width: 52px;
+    height: 40px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .center-robot svg { width: 52px; height: 40px; }
+  .model-conn-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 1;
+  }
+  .mid-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .right-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="figure">
+  <div class="layout" id="layout">
+
+    <!-- LEFT: two rows -->
+    <div class="rows-col" id="rowsCol">
+      <svg class="model-conn-svg" id="modelConnSvg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="svgArr2" viewBox="0 0 5 6" refX="5" refY="3" markerWidth="5" markerHeight="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+            <path d="M 0 0 L 5 3 L 0 6 Z" fill="#ccc"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="center-robot" id="centerRobot">
+        <svg viewBox="0 0 52 40" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="50" height="38" rx="8" fill="#e8e8e8" stroke="#bbb" stroke-width="0.8"/>
+          <circle cx="18" cy="14" r="5.5" fill="#d0d0d0" stroke="#aaa" stroke-width="0.6"/>
+          <circle cx="18" cy="14" r="2.2" fill="#666"/>
+          <circle cx="34" cy="14" r="5.5" fill="#d0d0d0" stroke="#aaa" stroke-width="0.6"/>
+          <circle cx="34" cy="14" r="2.2" fill="#666"/>
+          <rect x="14" y="26" width="24" height="7" rx="3.5" fill="#d0d0d0" stroke="#aaa" stroke-width="0.6"/>
+          <line x1="20.5" y1="26" x2="20.5" y2="33" stroke="#bbb" stroke-width="0.6"/>
+          <line x1="26" y1="26" x2="26" y2="33" stroke="#bbb" stroke-width="0.6"/>
+          <line x1="31.5" y1="26" x2="31.5" y2="33" stroke="#bbb" stroke-width="0.6"/>
+        </svg>
+      </div>
+
+      <!-- ROW 1: Be random! → red -->
+      <div class="row" id="row1">
+        <div class="stack q-stack c-q">
+          <div class="scard"></div><div class="scard"></div><div class="scard"></div>
+          <div class="scard front">
+            <span class="q-text">A or B?</span>
+            <span class="q-text-instr" style="color:#DC2626;font-size:11px;font-weight:500;font-style:italic;">Be random!</span>
+          </div>
+          <span class="stack-lbl">N binary<br>questions</span>
+        </div>
+
+        <div class="model-gap"></div>
+
+        <div class="stack pmf-stack c-pmf">
+          <div class="scard"></div><div class="scard"></div><div class="scard"></div>
+          <div class="scard front">
+            <div class="pmf-chart">
+              <div class="pmf-plot-area">
+                <div class="pmf-y-axis">
+                  <span class="pmf-y-label">1</span>
+                  <span class="pmf-y-label">0</span>
+                </div>
+                <div class="pmf-bars">
+                  <div class="bar" style="height:17px;background:#DC2626"></div>
+                  <div class="bar" style="height:14px;background:#DC2626"></div>
+                </div>
+                <div class="pmf-x-axis-line" aria-hidden="true"></div>
+                <div class="pmf-bar-lbls">
+                  <span class="bar-lbl">A</span>
+                  <span class="bar-lbl">B</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="stack-lbl">N binary probability<br>distributions</span>
+        </div>
+
+        <div class="agg-connector" aria-hidden="true">
+          <svg class="agg-brace-svg" viewBox="0 0 8 70" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0.55 2.5 H 3.1 V 19 C 3.1 23 4.9 31 6.35 35 C 4.9 39 3.1 47 3.1 51 V 67.5 H 0.55"/>
+          </svg>
+          <div class="agg-flow-arrow arr"><div class="arr-line"></div><div class="arr-head"></div></div>
+        </div>
+
+        <div class="hist" id="hist1" data-dist="{0,0,0,1,2,0,4,11,32,150}">
+          <div class="hist-title">Entropy distribution</div>
+          <div class="hist-kde" id="kde1"></div>
+          <div class="hist-axis"></div>
+          <div class="hist-labels"><span>0</span><span class="axis-center-label">Entropy</span><span>1</span></div>
+        </div>
+      </div>
+
+      <!-- ROW 2: Be sure! → blue -->
+      <div class="row" id="row2">
+        <div class="stack q-stack r-q">
+          <div class="scard"></div><div class="scard"></div><div class="scard"></div>
+          <div class="scard front">
+            <span class="q-text">A or B?</span>
+            <span class="q-text-instr" style="color:#2563EB;font-size:11px;font-weight:500;font-style:italic;">Be sure!</span>
+          </div>
+          <span class="stack-lbl">N binary<br>questions</span>
+        </div>
+
+        <div class="model-gap"></div>
+
+        <div class="stack pmf-stack r-pmf">
+          <div class="scard"></div><div class="scard"></div><div class="scard"></div>
+          <div class="scard front">
+            <div class="pmf-chart">
+              <div class="pmf-plot-area">
+                <div class="pmf-y-axis">
+                  <span class="pmf-y-label">1</span>
+                  <span class="pmf-y-label">0</span>
+                </div>
+                <div class="pmf-bars">
+                  <div class="bar" style="height:31px;background:#2563EB"></div>
+                  <div class="bar" style="height:1px;background:#2563EB"></div>
+                </div>
+                <div class="pmf-x-axis-line" aria-hidden="true"></div>
+                <div class="pmf-bar-lbls">
+                  <span class="bar-lbl">A</span>
+                  <span class="bar-lbl">B</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="stack-lbl">N binary probability<br>distributions</span>
+        </div>
+
+        <div class="agg-connector" aria-hidden="true">
+          <svg class="agg-brace-svg" viewBox="0 0 8 70" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0.55 2.5 H 3.1 V 19 C 3.1 23 4.9 31 6.35 35 C 4.9 39 3.1 47 3.1 51 V 67.5 H 0.55"/>
+          </svg>
+          <div class="agg-flow-arrow arr"><div class="arr-line"></div><div class="arr-head"></div></div>
+        </div>
+
+        <div class="hist" id="hist2" data-dist="{82,38,15,17,10,7,10,4,3,14}">
+          <div class="hist-title">Entropy distribution</div>
+          <div class="hist-kde" id="kde2"></div>
+          <div class="hist-axis"></div>
+          <div class="hist-labels"><span>0</span><span class="axis-center-label">Entropy</span><span>1</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MIDDLE: connector lines (SVG) -->
+    <div class="mid-col" id="midCol">
+      <svg id="connSvg" width="56" height="100%" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;">
+        <defs>
+          <marker id="svgArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M2 1.5L8 5L2 8.5" fill="none" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <!-- RIGHT: diff histogram (computed from sampling) -->
+    <div class="right-col" id="rightCol">
+      <div id="rightPanelInner" style="display:flex;flex-direction:column;align-items:center;">
+        <div class="diff-hist" id="diffHist">
+          <div class="hist-title">Pairwise entropy difference</div>
+          <div class="hist-kde" id="diffKde"></div>
+          <div class="hist-axis"></div>
+          <div class="diff-labels"><span>-1</span><span class="axis-center-label">&Delta;Entropy</span><span>1</span></div>
+        </div>
+        <div class="diff-note">Positive values imply that<br>model controls output entropy</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Read bar heights from a histogram element as a discrete distribution over [0,1]
+function readDist(histId) {
+  const histEl = document.getElementById(histId);
+  const rawDist = histEl?.dataset?.dist;
+  if (rawDist) {
+    const t = rawDist.trim();
+    if (t.startsWith('{') && t.endsWith('}')) {
+      return t.slice(1, -1).split(',').map((s) => parseFloat(s.trim()));
+    }
+    return JSON.parse(rawDist);
+  }
+  const bars = document.querySelectorAll('#' + histId + ' .hist-bars .hb');
+  const heights = [];
+  bars.forEach(b => {
+    const h = parseFloat(b.style.height);
+    heights.push(h);
+  });
+  return heights;
+}
+
+// Normalize an array to sum to 1
+function normalize(arr) {
+  const s = arr.reduce((a, b) => a + b, 0);
+  return arr.map(v => v / s);
+}
+
+// Sample from a discrete distribution, returning the bin center in [0,1]
+function sampleFrom(weights, nBins) {
+  const cdf = [];
+  let cum = 0;
+  for (let i = 0; i < weights.length; i++) {
+    cum += weights[i];
+    cdf.push(cum);
+  }
+  const r = Math.random();
+  for (let i = 0; i < cdf.length; i++) {
+    if (r <= cdf[i]) {
+      return (i + 0.5) / nBins;
+    }
+  }
+  return (weights.length - 0.5) / nBins;
+}
+
+function renderKde(container, samples, xMin, xMax, color, fillOpacity) {
+  const width = container.clientWidth;
+  const height = 34;
+  const nPoints = 80;
+  const bandwidth = 0.12;
+  const gaussian = (u) => Math.exp(-0.5 * u * u);
+  const xs = [];
+  const ys = [];
+  let maxY = 0;
+
+  for (let i = 0; i < nPoints; i++) {
+    const x = xMin + ((xMax - xMin) * i) / (nPoints - 1);
+    let y = 0;
+    for (const d of samples) {
+      y += gaussian((x - d) / bandwidth);
+    }
+    xs.push(x);
+    ys.push(y);
+    if (y > maxY) maxY = y;
+  }
+
+  const coords = xs.map((x, i) => {
+    const px = (i / (nPoints - 1)) * width;
+    const py = height - (ys[i] / maxY) * (height * 0.95);
+    return [px, py];
+  });
+
+  const linePath = coords.map(([px, py]) => `${px.toFixed(1)} ${py.toFixed(1)}`).join(' L ');
+  const areaPath = `M 0 ${height} L ${linePath} L ${width} ${height} Z`;
+  container.innerHTML = `
+    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="${areaPath}" fill="${color}" fill-opacity="${fillOpacity}"></path>
+      <path d="M ${linePath}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  `;
+}
+
+function renderEntropyKde(histId, kdeId, color) {
+  const weights = normalize(readDist(histId));
+  const nBins = weights.length;
+  const N = 5000;
+  const samples = [];
+  for (let i = 0; i < N; i++) {
+    samples.push(sampleFrom(weights, nBins));
+  }
+  renderKde(document.getElementById(kdeId), samples, 0, 1, color, 0.18);
+}
+
+function computeDiffHistogram() {
+  const randomWeights = normalize(readDist('hist1'));
+  const certainWeights = normalize(readDist('hist2'));
+  const nRandom = randomWeights.length;
+  const nCertain = certainWeights.length;
+
+  const N = 5000;
+
+  const samples_random = [];
+  const samples_certain = [];
+  for (let i = 0; i < N; i++) {
+    samples_random.push(sampleFrom(randomWeights, nRandom));
+    samples_certain.push(sampleFrom(certainWeights, nCertain));
+  }
+
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+  shuffle(samples_certain);
+  shuffle(samples_random);
+
+  const diffs = [];
+  for (let i = 0; i < N; i++) {
+    diffs.push(samples_random[i] - samples_certain[i]);
+  }
+
+  renderKde(document.getElementById('diffKde'), diffs, -1, 1, '#9333EA', 0.22);
+
+  const sorted = [...diffs].sort((a, b) => a - b);
+  const median = sorted[Math.floor(sorted.length / 2)];
+  const svg = document.querySelector('#diffKde svg');
+  if (svg) {
+    const width = parseFloat(svg.getAttribute('width'));
+    const height = parseFloat(svg.getAttribute('height'));
+    const mapX = (x) => ((x + 1) / 2) * width;
+
+    const zeroLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    zeroLine.setAttribute('x1', mapX(0));
+    zeroLine.setAttribute('y1', 0);
+    zeroLine.setAttribute('x2', mapX(0));
+    zeroLine.setAttribute('y2', height);
+    zeroLine.setAttribute('stroke', '#888');
+    zeroLine.setAttribute('stroke-width', '0.8');
+    zeroLine.setAttribute('stroke-dasharray', '2,2');
+    svg.appendChild(zeroLine);
+
+    const medLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    medLine.setAttribute('x1', mapX(median));
+    medLine.setAttribute('y1', 0);
+    medLine.setAttribute('x2', mapX(median));
+    medLine.setAttribute('y2', height);
+    medLine.setAttribute('stroke', '#9333EA');
+    medLine.setAttribute('stroke-width', '1.5');
+    medLine.setAttribute('stroke-dasharray', '2,2');
+    svg.appendChild(medLine);
+  }
+}
+
+function drawModelConn() {
+  const rowsCol = document.getElementById('rowsCol');
+  const svg = document.getElementById('modelConnSvg');
+  const robot = document.getElementById('centerRobot');
+  const row1 = document.getElementById('row1');
+  const row2 = document.getElementById('row2');
+  const q1 = row1.querySelector('.q-stack');
+  const q2 = row2.querySelector('.q-stack');
+  const p1 = row1.querySelector('.pmf-stack');
+  const p2 = row2.querySelector('.pmf-stack');
+  const gap1 = row1.querySelector('.model-gap');
+
+  const areaRect = rowsCol.getBoundingClientRect();
+  const gapRect = gap1.getBoundingClientRect();
+  const row1Rect = row1.getBoundingClientRect();
+  const row2Rect = row2.getBoundingClientRect();
+
+  const cx = (gapRect.left + gapRect.right) / 2 - areaRect.left;
+  const row1Cy = row1Rect.top + row1Rect.height / 2 - areaRect.top;
+  const row2Cy = row2Rect.top + row2Rect.height / 2 - areaRect.top;
+  const midY = (row1Cy + row2Cy) / 2;
+  robot.style.left = (cx - 26) + 'px';
+  robot.style.top = (midY - 20) + 'px';
+
+  svg.setAttribute('width', areaRect.width);
+  svg.setAttribute('height', areaRect.height);
+
+  while (svg.children.length > 1) svg.removeChild(svg.lastChild);
+
+  const toLocal = (r) => ({
+    left: r.left - areaRect.left,
+    right: r.right - areaRect.left,
+    cy: r.top + r.height / 2 - areaRect.top,
+  });
+  const lq1 = toLocal(q1.getBoundingClientRect());
+  const lq2 = toLocal(q2.getBoundingClientRect());
+  const lp1 = toLocal(p1.getBoundingClientRect());
+  const lp2 = toLocal(p2.getBoundingClientRect());
+  const lr = toLocal(robot.getBoundingClientRect());
+
+  const mkLine = (x1, y1, x2, y2, arrow) => {
+    const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    l.setAttribute('x1', x1); l.setAttribute('y1', y1);
+    l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+    l.setAttribute('stroke', '#ccc'); l.setAttribute('stroke-width', '1');
+    if (arrow) l.setAttribute('marker-end', 'url(#svgArr2)');
+    svg.appendChild(l);
+  };
+
+  const PAD = 6;
+  const VPAD = 12;
+  const shortenY = (srcY, dstY) => {
+    const dir = dstY > srcY ? 1 : -1;
+    return [srcY + dir * VPAD, dstY - dir * VPAD];
+  };
+  let [ya, yb] = shortenY(lq1.cy, lr.cy);
+  mkLine(lq1.right + PAD, ya, lr.left - PAD, yb, true);
+  [ya, yb] = shortenY(lq2.cy, lr.cy);
+  mkLine(lq2.right + PAD, ya, lr.left - PAD, yb, true);
+  [ya, yb] = shortenY(lr.cy, lp1.cy);
+  mkLine(lr.right + PAD, ya, lp1.left - PAD, yb, true);
+  [ya, yb] = shortenY(lr.cy, lp2.cy);
+  mkLine(lr.right + PAD, ya, lp2.left - PAD, yb, true);
+}
+
+function drawLines() {
+  const svg = document.getElementById('connSvg');
+  const midCol = document.getElementById('midCol');
+  const midRect = midCol.getBoundingClientRect();
+
+  const h1 = document.getElementById('hist1');
+  const h2 = document.getElementById('hist2');
+  const dh = document.getElementById('diffHist');
+  const rightPanelInner = document.getElementById('rightPanelInner');
+
+  const h1r = h1.getBoundingClientRect();
+  const h2r = h2.getBoundingClientRect();
+
+  const h1cy = h1r.top + h1r.height / 2 - midRect.top;
+  const h2cy = h2r.top + h2r.height / 2 - midRect.top;
+  const midCy = (h1cy + h2cy) / 2;
+
+  const targetCenterPageY = midRect.top + midCy;
+  let alignMt = parseFloat(rightPanelInner.dataset.alignMargin || '0');
+  const dhrPre = dh.getBoundingClientRect();
+  alignMt += targetCenterPageY - (dhrPre.top + dhrPre.height / 2);
+  rightPanelInner.dataset.alignMargin = String(alignMt);
+  rightPanelInner.style.marginTop = `${alignMt}px`;
+  void dh.offsetHeight;
+
+  const svgH = midRect.height;
+  svg.setAttribute('height', svgH);
+
+  while (svg.children.length > 1) svg.removeChild(svg.lastChild);
+
+  const mkLine = (x1, y1, x2, y2, marker) => {
+    const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    l.setAttribute('x1', x1); l.setAttribute('y1', y1);
+    l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+    l.setAttribute('stroke', '#ccc'); l.setAttribute('stroke-width', '1');
+    if (marker) l.setAttribute('marker-end', 'url(#svgArr)');
+    svg.appendChild(l);
+  };
+
+  const mkCircledMinus = (x, y, r) => {
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', x); c.setAttribute('cy', y);
+    c.setAttribute('r', r);
+    c.setAttribute('fill', '#fff');
+    c.setAttribute('stroke', '#ccc');
+    c.setAttribute('stroke-width', '1');
+    svg.appendChild(c);
+
+    const minus = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    minus.setAttribute('x1', x - 4);
+    minus.setAttribute('y1', y);
+    minus.setAttribute('x2', x + 4);
+    minus.setAttribute('y2', y);
+    minus.setAttribute('stroke', '#ccc');
+    minus.setAttribute('stroke-width', '1');
+    minus.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(minus);
+  };
+
+  const cx = 24;
+  const opR = 8;
+
+  mkLine(0, h1cy, cx, h1cy);
+  mkLine(cx, h1cy, cx, midCy - opR);
+
+  mkLine(0, h2cy, cx, h2cy);
+  mkLine(cx, h2cy, cx, midCy + opR);
+
+  const elbowX = cx + opR;
+  mkLine(elbowX, midCy, 56, midCy, true);
+
+  mkCircledMinus(cx, midCy, opR);
+}
+
+window.addEventListener('load', () => {
+  renderEntropyKde('hist1', 'kde1', '#DC2626');
+  renderEntropyKde('hist2', 'kde2', '#2563EB');
+  computeDiffHistogram();
+  setTimeout(() => { drawModelConn(); drawLines(); }, 80);
+});
+window.addEventListener('resize', () => { drawModelConn(); drawLines(); });
+</script>
+
+</body>
+</html>

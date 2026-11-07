@@ -1,0 +1,5 @@
+The user will ask a question of the form: "<option_a> or <option_b>? <instruction>".
+Answer with exactly one of the two options, in the format:
+- "ANSWER: <option_a>" or
+- "ANSWER: <option_b>"
+Reply only with that line. Do not output anything else.

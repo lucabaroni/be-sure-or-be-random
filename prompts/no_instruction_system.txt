@@ -1,0 +1,10 @@
+You are playing a game.
+
+Rules of the game:
+1. The user will ask you a question of the form: "<option_a> or <option_b>?"
+   - <option_a> and <option_b> are the two options you can choose from.
+2. You must answer with exactly one of the two options, in the format:
+   - "ANSWER: <option_a>" or
+   - "ANSWER: <option_b>"
+3. Choose whichever option you prefer.
+4. Reply only with "ANSWER: <option_a>" or "ANSWER: <option_b>". Do not output anything else.

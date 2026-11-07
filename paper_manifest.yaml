@@ -1,0 +1,453 @@
+# Run matrix for every experiment in the paper. Launch with: python run_paper.py run --group <id>
+# models/Qwen3-14B-calib-soft is Qwen3-14B after Calibration Fine-Tuning (soft-target variant, default settings,
+# LoRA merged), trained with https://github.com/chandar-lab/calibration-finetuning (not included here).
+version: 1
+defaults:
+  supported_stages:
+  - prepare
+  - run
+figures:
+  figure3:
+    title: Cross-model comparison
+    groups:
+    - id: local-model-sweep
+      kind: zero_shot_local
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - qwen/Qwen3-0.6B
+        - qwen/Qwen3-1.7B
+        - qwen/Qwen3-4B
+        - qwen/Qwen3-8B
+        - qwen/Qwen3-14B
+        - qwen/Qwen3-32B
+        - qwen/Qwen3.5-0.8B
+        - qwen/Qwen3.5-2B
+        - qwen/Qwen3.5-4B
+        - qwen/Qwen3.5-9B
+        - qwen/Qwen3.5-27B
+        - qwen/Qwen3.5-35B-A3B
+        - meta-llama/Meta-Llama-3-8B-Instruct
+        - meta-llama/Meta-Llama-3-70B-Instruct
+        - google/gemma-4-26B-A4B-it
+        - google/gemma-4-31B-it
+        - allenai/Olmo-3.1-32B-Instruct-SFT
+        - allenai/Olmo-3.1-32B-Instruct-DPO
+        - allenai/Olmo-3.1-32B-Instruct
+        instruction_pairs:
+        - - Be sure!
+          - Be random!
+        - - Maximize certainty
+          - Minimize certainty
+        - - Maximize certainty
+          - Maximize uncertainty
+        - - Commit to one option
+          - Keep both options equally likely
+        - - Reply with confidence
+          - Reply without confidence
+        - - Aim for low entropy
+          - Aim for high entropy
+        - - Be deterministic
+          - Assign equal probability to both options
+    - id: calibration-ft-qwen3-14b
+      kind: zero_shot_local
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - models/Qwen3-14B-calib-soft
+        instruction_pairs:
+        - - Be sure!
+          - Be random!
+        - - Maximize certainty
+          - Minimize certainty
+        - - Maximize certainty
+          - Maximize uncertainty
+        - - Commit to one option
+          - Keep both options equally likely
+        - - Reply with confidence
+          - Reply without confidence
+        - - Aim for low entropy
+          - Aim for high entropy
+        - - Be deterministic
+          - Assign equal probability to both options
+    - id: local-model-sweep-barebone
+      kind: prompt_variants
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - qwen/Qwen3-0.6B
+        - qwen/Qwen3-1.7B
+        - qwen/Qwen3-4B
+        - qwen/Qwen3-8B
+        - qwen/Qwen3-14B
+        - qwen/Qwen3-32B
+        - qwen/Qwen3.5-0.8B
+        - qwen/Qwen3.5-2B
+        - qwen/Qwen3.5-4B
+        - qwen/Qwen3.5-9B
+        - qwen/Qwen3.5-27B
+        - qwen/Qwen3.5-35B-A3B
+        - meta-llama/Meta-Llama-3-8B-Instruct
+        - meta-llama/Meta-Llama-3-70B-Instruct
+        - google/gemma-4-26B-A4B-it
+        - google/gemma-4-31B-it
+        - allenai/Olmo-3.1-32B-Instruct-SFT
+        - allenai/Olmo-3.1-32B-Instruct-DPO
+        - allenai/Olmo-3.1-32B-Instruct
+        templates:
+        - barebone
+        instruction_pairs:
+        - - Be sure!
+          - Be random!
+        - - Maximize certainty
+          - Minimize certainty
+        - - Maximize certainty
+          - Maximize uncertainty
+        - - Commit to one option
+          - Keep both options equally likely
+        - - Reply with confidence
+          - Reply without confidence
+        - - Aim for low entropy
+          - Aim for high entropy
+        - - Be deterministic
+          - Assign equal probability to both options
+    - id: api-model-sweep
+      kind: zero_shot_api
+      matrix:
+        models:
+        - accounts/fireworks/models/deepseek-v3p1
+        - accounts/fireworks/models/deepseek-v3p2
+        - accounts/fireworks/models/glm-4p7
+        - accounts/fireworks/models/glm-5
+        - accounts/fireworks/models/llama-v3p3-70b-instruct
+        instruction_pairs:
+        - - Be sure!
+          - Be random!
+        - - Maximize certainty
+          - Minimize certainty
+        - - Maximize certainty
+          - Maximize uncertainty
+        - - Commit to one option
+          - Keep both options equally likely
+        - - Reply with confidence
+          - Reply without confidence
+        - - Aim for low entropy
+          - Aim for high entropy
+        - - Be deterministic
+          - Assign equal probability to both options
+  figure4:
+    title: Prompt explanation effects
+    groups:
+    - id: prompt-variation-sweep
+      kind: prompt_variants
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - qwen/Qwen3.5-27B
+        - qwen/Qwen3-32B
+        - meta-llama/Meta-Llama-3-70B-Instruct
+        templates:
+        - barebone
+        instruction_pairs:
+        - - Be sure!
+          - Be random!
+        - - Maximize certainty
+          - Minimize certainty
+        - - Reply with confidence
+          - Reply without confidence
+        - - Aim for low entropy
+          - Aim for high entropy
+        - - Be random!
+          - Be sure!
+        - - Minimize certainty
+          - Maximize certainty
+        - - Reply without confidence
+          - Reply with confidence
+        - - Aim for high entropy
+          - Aim for low entropy
+        - - Be a good boy!
+          - Be a bad boy!
+        - - Be honest!
+          - Be dishonest!
+        - - Be banana!
+          - Be apple!
+        - - Be polite!
+          - Be impolite!
+        - - Abracadabra!
+          - Hocus pocus!
+        - - Alakazam!
+          - Sim sala bim!
+        - - Bibbidi-bobbidi-boo!
+          - Wingardium leviosa!
+        - - Ping!
+          - Pong!
+        - - Quack!
+          - Moo!
+        - - Tralala!
+          - Do re mi!
+        - - Be a bad boy!
+          - Be a good boy!
+        - - Be dishonest!
+          - Be honest!
+        - - Be apple!
+          - Be banana!
+        - - Be impolite!
+          - Be polite!
+        - - Hocus pocus!
+          - Abracadabra!
+        - - Sim sala bim!
+          - Alakazam!
+        - - Wingardium leviosa!
+          - Bibbidi-bobbidi-boo!
+        - - Pong!
+          - Ping!
+        - - Moo!
+          - Quack!
+        - - Do re mi!
+          - Tralala!
+  figure4b:
+    title: Prompt structure ablations
+    groups:
+    - id: prompt-structure-ablations
+      kind: prompt_variants
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - qwen/Qwen3.5-27B
+        - qwen/Qwen3-32B
+        - qwen/Qwen3.5-35B-A3B
+        - meta-llama/Meta-Llama-3-70B-Instruct
+        templates:
+        - format_only
+        - user_rules
+        - standard_pad64
+        - standard_pad256
+        - barebone_pad64
+        - barebone_pad256
+        instruction_pairs:
+        - - Be sure!
+          - Be random!
+        - - Maximize certainty
+          - Minimize certainty
+        - - Maximize certainty
+          - Maximize uncertainty
+        - - Commit to one option
+          - Keep both options equally likely
+        - - Reply with confidence
+          - Reply without confidence
+        - - Aim for low entropy
+          - Aim for high entropy
+        - - Be deterministic
+          - Assign equal probability to both options
+    - id: prompt-structure-filler
+      kind: prompt_variants
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - qwen/Qwen3.5-27B
+        - qwen/Qwen3-32B
+        - qwen/Qwen3.5-35B-A3B
+        - meta-llama/Meta-Llama-3-70B-Instruct
+        templates:
+        - standard_fill64
+        - standard_fill256
+        - barebone_fill64
+        - barebone_fill256
+        instruction_pairs:
+        - - Be sure!
+          - Be random!
+        - - Maximize certainty
+          - Minimize certainty
+        - - Maximize certainty
+          - Maximize uncertainty
+        - - Commit to one option
+          - Keep both options equally likely
+        - - Reply with confidence
+          - Reply without confidence
+        - - Aim for low entropy
+          - Aim for high entropy
+        - - Be deterministic
+          - Assign equal probability to both options
+  figure7:
+    title: MMLU entropy steering
+    groups:
+    - id: mmlu-entropy-steering
+      kind: mmlu_entropy_steering
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - Qwen/Qwen3.5-27B
+        - Qwen/Qwen3-32B
+        dataset_name: cais/mmlu
+        dataset_config: all
+        split: test
+        max_examples: null
+        batch_size: 16
+        fixed_layer_overrides:
+          Qwen/Qwen3.5-27B: 56
+          Qwen/Qwen3-32B: 56
+        vector_source:
+        - - Be sure!
+          - Be random!
+        strengths:
+        - 2.0
+        steering_conditions:
+        - none
+        - increase_entropy
+        - decrease_entropy
+        prompt_variant: format_instructed
+    - id: mmlu-random-vector-control
+      kind: mmlu_random_vector_control
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - Qwen/Qwen3.5-27B
+        - Qwen/Qwen3-32B
+        dataset_name: cais/mmlu
+        dataset_config: all
+        split: test
+        max_examples: null
+        batch_size: 16
+        fixed_layer_overrides:
+          Qwen/Qwen3.5-27B: 56
+          Qwen/Qwen3-32B: 56
+        vector_source:
+        - - Be sure!
+          - Be random!
+        strengths:
+        - 2.0
+        n_random_vectors: 8
+        random_seed: 0
+        prompt_variant: format_instructed
+    - id: mmlu-prompt-conditions
+      kind: mmlu_prompt_conditions
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - qwen/Qwen3.5-27B
+        - meta-llama/Meta-Llama-3-8B-Instruct
+        dataset_name: cais/mmlu
+        dataset_config: all
+        split: test
+        max_examples: null
+        batch_size: 32
+        answer_prefix: 'ANSWER:'
+        prompt_variants:
+        - format_instructed
+        - maximize_certainty
+        - maximize_entropy
+        - sandbag_via_uncertainty
+    - id: mmlu-steering-vector-probe
+      kind: mmlu_steering_vector_probe
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - Qwen/Qwen3.5-27B
+        dataset_name: cais/mmlu
+        dataset_config: all
+        split: test
+        max_examples: null
+        batch_size: 16
+        answer_prefix: 'ANSWER:'
+        prompt_variants:
+        - format_instructed
+        - maximize_entropy
+        positive_variant: format_instructed
+        negative_variant: maximize_entropy
+        vector_source:
+        - - Be sure!
+          - Be random!
+        layer_step: 4
+        val_fraction: 0.2
+        seed: 0
+  figure5:
+    title: Steering and no-instruction control
+    groups:
+    - id: steering-extract
+      kind: steering_extract
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - Qwen/Qwen3-32B
+        - Qwen/Qwen3.5-27B
+        - meta-llama/Meta-Llama-3-70B-Instruct
+        instruction_pairs:
+        - - Be sure!
+          - Be random!
+        - - Maximize certainty
+          - Minimize certainty
+        - - Maximize certainty
+          - Maximize uncertainty
+        - - Commit to one option
+          - Keep both options equally likely
+        - - Reply with confidence
+          - Reply without confidence
+        - - Aim for low entropy
+          - Aim for high entropy
+        - - Be deterministic
+          - Assign equal probability to both options
+        layer_step: 4
+    - id: steering-compute
+      kind: steering_compute
+      ab_pairs_variant: neutral
+    - id: steering-all-layers
+      kind: steering_all_layers
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - Qwen/Qwen3-32B
+        - Qwen/Qwen3.5-27B
+        - meta-llama/Meta-Llama-3-70B-Instruct
+        vector_source:
+        - - Be sure!
+          - Be random!
+        test_pairs:
+        - - Be sure!
+          - Be random!
+        strengths:
+        - 2.0
+        - 1.0
+        - -1.0
+        - -2.0
+    - id: steering-cross-instruction
+      kind: steering_all_layers
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - Qwen/Qwen3.5-27B
+        - Qwen/Qwen3-32B
+        - meta-llama/Meta-Llama-3-70B-Instruct
+        vector_source:
+        - - Be sure!
+          - Be random!
+        test_pairs:
+        - - Commit to one option
+          - Keep both options equally likely
+        strengths:
+        - 2.0
+        - 1.0
+        - -1.0
+        - -2.0
+    - id: no-instruction-control
+      kind: no_instruction
+      ab_pairs_variant: neutral
+      matrix:
+        models:
+        - Qwen/Qwen3-32B
+        - Qwen/Qwen3.5-27B
+        - meta-llama/Meta-Llama-3-70B-Instruct
+        fixed_layer_overrides:
+          Qwen/Qwen3-32B: 56
+          Qwen/Qwen3.5-27B: 56
+          meta-llama/Meta-Llama-3-70B-Instruct: 44
+        strengths:
+        - 1.0
+        - 2.0
+        - 3.0
+        steering_conditions:
+        - positive
+        - negative
+        - none
+        vector_source:
+        - - Be sure!
+          - Be random!

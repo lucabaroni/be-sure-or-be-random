@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "be-sure-or-random"
+version = "0.1.0"
+description = "Clean paper-focused repo for the be-sure-or-random experiments."
+readme = "README.md"
+# causal-conv1d (often paired with Qwen hybrid layers) does not publish usable wheels for all
+# platforms and its build fails without CUDA/nvcc (see Dao-AILab/causal-conv1d#6). Keep 3.14 off
+# until the compiled stack catches up.
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "accelerate>=1.12.0",
+    "datasets>=4.4.1",
+    "python-dotenv>=1.0.0",
+    "matplotlib>=3.10.7",
+    "numpy>=2.3.5",
+    "openai>=2.9.0",
+    "pyyaml>=6.0.2",
+    "scipy>=1.16.3",
+    "torch>=2.9.1",
+    "tqdm>=4.67.1",
+    "transformers>=4.57.3",
+    "anthropic>=0.96.0",
+    "vllm>=0.20.0",
+]
+
+# Qwen3.5 hybrid layers: flash-linear-attention installs from wheels in most environments.
+# For maximum performance you may also install causal-conv1d when you have CUDA PyTorch + nvcc
+# (it often fails to build from source without them); see README.
+[project.optional-dependencies]
+qwen3-fast = [
+    "flash-linear-attention>=0.4",
+]
+# run_thinking_sampling.py: vLLM for batched local GPU sampling with thinking
+thinking = [
+    "vllm>=0.8.0",
+]
+
+[tool.setuptools]
+packages = ["be_sure_or_random"]
+
+[tool.uv]
+package = true

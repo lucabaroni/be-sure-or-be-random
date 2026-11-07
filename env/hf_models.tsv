@@ -1,0 +1,23 @@
+repo_id	revision	size_gb
+Qwen/Qwen3-32B	9216db5781bf21249d130ec9da846c4624c16137	62
+Qwen/Qwen3.5-27B	fc05daec18b0a78c049392ed2e771dde82bdf654	52
+Qwen/Qwen3.5-35B-A3B	59d61f3ce65a6d9863b86d2e96597125219dc754	1
+meta-llama/Meta-Llama-3-70B-Instruct	50fd307e57011801c7833c87efa1984ddf2db42f	132
+meta-llama/Meta-Llama-3-8B-Instruct	8afb486c1db24fe5011ec46dfbe5b5dccdb575c2	15
+qwen/Qwen3-0.6B	c1899de289a04d12100db370d81485cdf75e47ca	2
+qwen/Qwen3-1.7B	70d244cc86ccca08cf5af4e1e306ecf908b1ad5e	4
+qwen/Qwen3-32B	9216db5781bf21249d130ec9da846c4624c16137	62
+qwen/Qwen3.5-0.8B	2fc06364715b967f1860aea9cf38778875588b17	2
+qwen/Qwen3.5-27B	fc05daec18b0a78c049392ed2e771dde82bdf654	52
+qwen/Qwen3.5-2B	15852e8c16360a2fea060d615a32b45270f8a8fc	5
+qwen/Qwen3.5-35B-A3B	59d61f3ce65a6d9863b86d2e96597125219dc754	67
+qwen/Qwen3.5-4B	851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a	9
+qwen/Qwen3.5-9B	c202236235762e1c871ad0ccb60c8ee5ba337b9a	19
+qwen/Qwen3-4B	main	
+qwen/Qwen3-8B	main	
+qwen/Qwen3-14B	main	
+allenai/Olmo-3.1-32B-Instruct	main	
+allenai/Olmo-3.1-32B-Instruct-SFT	main	
+allenai/Olmo-3.1-32B-Instruct-DPO	main	
+google/gemma-4-26B-A4B-it	main	
+google/gemma-4-31B-it	main	
