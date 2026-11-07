@@ -4,6 +4,8 @@ Code and results for **Language Models Can Coarsely Modulate Entropy Under Instr
 
 We instruct language models to raise or lower the entropy of their answer in a two-option choice with no correct answer, measure the shift in output entropy, extract a steering direction for it from the residual stream and test that direction on MMLU.
 
+![Overview of the experiment: each binary question is asked under an entropy-maximizing and an entropy-minimizing instruction, and the per-question entropy difference is plotted.](docs/figure1.png)
+
 ## Setup
 
 ```bash
